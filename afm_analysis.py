@@ -15,7 +15,6 @@ import csv
 import numpy as np
 from pylab import *
 from scipy import *
-import scipy, scipy.stats.chisquare
 from scipy.optimize import curve_fit
 
 
@@ -48,24 +47,24 @@ def getfit(data_getfit):
     p1 = popt[1]
     return ([p0,p1])
 
-def plotdata(data_plot,para_plot):
+def plotdata(data_plot,para_plot,name_plot):
     #data, best fit vs. displacement as data_bestfit
     data_bestfit = figure(1)
     plot(data_plot[0],(data_plot[1]),'ro')
     plot(data_plot[0],(power_func(data_plot[0],para_plot[0],para_plot[1])))
-    title('Force Curve of Cell Indentation')
+    title('Force Curve of Cell Indentation ' +'('+name_plot+')')
     xlabel('Indentation of cell (um)')
     ylabel('Force (N)')
 
     data_hertzv = figure(2)
     plot(data_plot[0],data_plot[1],'bs')
     plot(data_plot[0],data_plot[2],'g^')
+    title('Hertz Model Predictions with Simulation' +'('+name_plot+')')
+    xlabel('Indentation of cell (um)')
+    ylabel('Force (N)')
 
     show()
 
-def afm_stats(data_stats):
-    chi_stats = schisquare(data_stats[1],f_exp=data_stats[2],ddof = 2)
-    return chi_stats
 def main():
     #defines date,E_cell,v_cell, r_afm, and hertz_force as global variables
     global date, E_cell, v_cell, r_afm, hertz_force
@@ -118,14 +117,8 @@ def main():
     para_fwd = getfit(data_fwd)
     para_rev = getfit(data_rev)
 
-<<<<<<< HEAD
-    stats = afm_stats(data_fwd)
-
     plotdata(data_fwd,para_fwd,'Data Forward')
     plotdata(data_rev,para_rev,'Data Reverse')
-=======
-    plotdata(data_fwd,para_fwd)
->>>>>>> parent of 5cb9f7c... Updated modularized afm_analysis.py
 
 
 main()
